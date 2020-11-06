@@ -1,0 +1,104 @@
+import java.util.Scanner;
+
+class Assignment4 {
+  public static void main(String[] args) {
+        
+    Scanner scan = new Scanner(System.in);
+    String word;
+   
+    System.out.println("Type the message to be shortened");
+    word = scan.nextLine().toLowerCase();
+   
+   
+    // ALGORITHM 1
+   
+    String a1word = "";
+    int a1repeats = 0;
+    int a1vowels = 0;
+   
+    for (int i = 0; i<word.length(); i++) {
+      String subStr = word.substring(i,i+1);
+      
+      // is current index a vowel?
+      boolean isVowel = subStr.equals("a") || subStr.equals("e") || subStr.equals("i") || subStr.equals("o") || subStr.equals("u");
+      
+      // does the index before have a space?
+      boolean isSpace = false;
+      if (i > 0) {
+        isSpace = word.substring(i-1,i).equals(" ");
+      }
+      
+      // you can only remove the vowel if there is not a space before it
+      boolean isRemovableVowel = !isSpace && isVowel && i > 0;
+      
+      // is the letter repeating?
+      boolean isRepeat = false;
+      if (i < word.length()-1) {
+        isRepeat = subStr.equals(word.substring(i+1,i+2)) && !isVowel;
+      }
+      
+      // if the vowel is not removable and it is not repeating, add to new word
+      if (!isRemovableVowel) {
+        if (!isRepeat) {
+          a1word += subStr;
+        } else {
+          a1repeats += 1;
+        }
+      } else {
+        a1vowels += 1;
+      }
+
+    }
+
+    // Print Algorithm 1
+    System.out.println("Algorithm 1");
+    System.out.println("Vowels removed: "+ a1vowels);
+    System.out.println("Repeats removed: " + a1repeats);
+    System.out.println("Algorithm 1 message: " + a1word);
+    System.out.println("Algorithm 1 characters saved: " + (a1vowels + a1repeats));
+    
+    // ALGORITHM 2
+    
+    String a2word = "";
+    int totalUnique = 0;
+    
+    for (int i = 0; i < word.length(); i++) {
+      int unique = 0;
+      String subStr = word.substring(i,i+1);
+      if (!subStr.equals(" ")) {
+        // is character a unique character
+        boolean isNotUnique = false;
+        // char is unique if it is not in a2word
+        for (int c = 0; c < a2word.length(); c++) {
+          if (subStr.equals(a2word.substring(c,c+1))) {
+            isNotUnique = true;
+          }
+        }
+        // if char is unique
+        if (!isNotUnique) {
+          // char is unique get amount of times it appears in the string
+          for(int j = i; j < word.length(); j++) {
+            if (subStr.equals(word.substring(j,j+1))) {
+              unique ++;
+            }
+          }
+          totalUnique += 1;
+          a2word += (unique + subStr);
+        }
+        
+       
+      }
+
+    }
+    System.out.println();
+    System.out.println("Algorithm 2");
+    System.out.println("Unique characters found: "+totalUnique);
+    System.out.println("Algorithm 2 message: " + a2word);
+    System.out.println("Algorithm 2 characters saved: " + (word.length() - a2word.length()));
+    
+    
+    
+    
+    
+  }
+}
